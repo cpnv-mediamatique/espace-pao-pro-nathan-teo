@@ -4,11 +4,11 @@
 <?php
 session_start();
 
-include("../commande/bd.php");
+include("commande/bd.php");
 
 // S'il y a une session alors on ne retourne plus sur cette page
 if (isset($_SESSION['id'])) {
-  header('Location: ../index.php');
+  header('Location: index.php');
   exit;
 }
 
