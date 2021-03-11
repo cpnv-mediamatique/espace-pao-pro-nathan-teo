@@ -50,7 +50,7 @@
         <textarea class="form-control" id="textAreaExample" rows="4">Ecrire un message.</textarea>
       </div>
       <br>
-      <a class="btn text-white col-md-6 " href="message.html" style="background-color:#01A659; font-weight: bold;">
+      <a class="btn text-white col-md-6 " href="message.php" style="background-color:#01A659; font-weight: bold;">
         Envoyer votre question
       </a>
 
