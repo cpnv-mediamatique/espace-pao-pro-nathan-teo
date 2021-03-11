@@ -20,6 +20,7 @@ if (!empty($_POST["pseudo"])) {
   // On se place sur le bon formulaire grâce au "name" de la balise "input"
   if (isset($_POST['inscription'])) {
     $pseudo = htmlentities(trim($_POST["pseudo"])); // on récupère le prénom
+    $nom = htmlentities(trim($_POST["name"])); // on récupère le prénom
     $mail = htmlentities(strtolower(trim($_POST["mail"]))); // On récupère le mail
     $mdp = trim($_POST["mdp"]); // On récupère le mot de passe 
     $confmdp = trim($_POST["confmdp"]); //  On récupère la confirmation du mot de passe     
@@ -27,18 +28,22 @@ if (!empty($_POST["pseudo"])) {
     //  Vérification du prénom
     if (empty($pseudo)) {
       $valid = false;
-      $er_prenom = ("Le prenom d' utilisateur ne peut pas être vide");
+      $err = ("Le prenom d' utilisateur ne peut pas être vide");
+    }
+    if (empty($nom)) {
+      $valid = false;
+      $err = ("Le prenom d' utilisateur ne peut pas être vide");
     }
 
     // Vérification du mail
     if (empty($mail)) {
       $valid = false;
-      $er_mail = "Le mail ne peut pas être vide";
+      $err = "Le mail ne peut pas être vide";
 
       // On vérifit que le mail est dans le bon format
     } elseif (!preg_match("/^[a-z0-9\-_.]+@[a-z]+\.[a-z]{2,3}$/i", $mail)) {
       $valid = false;
-      $er_mail = "Le mail n'est pas valide";
+      $err = "Le mail n'est pas valide";
     } else {
       // On vérifit que le mail est disponible
       $req_mail = $DB->query("SELECT mail 
@@ -46,17 +51,17 @@ if (!empty($_POST["pseudo"])) {
 
       if ($req_mail['mail'] <> "") {
         $valid = false;
-        $er_mail = "Ce mail existe déjà";
+        $err = "Ce mail existe déjà";
       }
     }
 
     // Vérification du mot de passe
     if (empty($mdp)) {
       $valid = false;
-      $er_mdp = "Le mot de passe ne peut pas être vide";
+      $err = "Le mot de passe ne peut pas être vide";
     } elseif ($mdp != $confmdp) {
       $valid = false;
-      $er_mdp = "La confirmation du mot de passe ne correspond pas";
+      $err = "La confirmation du mot de passe ne correspond pas";
     }
 
     // Si toutes les conditions sont remplies alors on fait le traitement
@@ -71,12 +76,14 @@ if (!empty($_POST["pseudo"])) {
       $fmdp = password_hash($mdp, PASSWORD_DEFAULT);
 
       // On insert nos données dans la table utilisateur
-      $req = $DB->prepare('INSERT INTO user(nom, mail, mdp, token, date_creation) VALUES(:nom, :mail, :mdp, :token, :date_creation)');
+      $req = $DB->prepare('INSERT INTO user(nom, prenom, classe, annee, mail, mdp, token, date_creation) VALUES(:nom, :prenom, :classe, :annee, :mail, :mdp, :token, :date_creation)');
       $req->execute(array(
         'nom' => $nom,
         'prenom' => $prenom,
         'mail' => $mail,
         'mdp' => $fmdp,
+        'classe' => $classe,
+        'annee' => "1",
         'token' => $token,
         'date_creation' => $date_creation_compte
       ));
@@ -178,6 +185,7 @@ if (!empty($_POST["pseudo"])) {
         <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Confirmer votre mot de passe</label>
         <input type="password" class="form-control" id="exampleInputPassword1" name="confmdp" required>
       </div>
+      <p><?= $err ?></p>
       <input type="submit" class="btn text-white col-md-6" style="background-color:#01A659; font-weight: bold;">
       <br><br>
       <a href="PageConnection.php" class=" d-flex justify-content-between" style="color:#01A659">Vous avez déjà un compte ?</a>
