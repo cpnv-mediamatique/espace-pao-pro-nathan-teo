@@ -37,10 +37,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav d-flex justify-content-between">
-              <a class="nav-link active" href="index.html">Home</a>
-              <a class="nav-link" href="Service.html">Services</a>
-              <a class="nav-link" href="pageAdmin.html">Admin</a>
-              <a class="nav-link" href="pageCommande.html">Commande</a>
+              <a class="nav-link active" href="index.php">Home</a>
+              <a class="nav-link" href="Service.php">Services</a>
+              <a class="nav-link" href="pageAdmin.php">Admin</a>
+              <a class="nav-link" href="pageCommande.php">Commande</a>
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a
               >
             </div>
@@ -63,35 +63,35 @@
       <div class="row g-2">
         <div class="col-3" >
           <div class="p-3"style="background-color:#EDEEEF; "><img src="img/Impression/Imprimer01.jpg" style="width: 20vw">Impression<br>
-            <a class="btn text-white col-md-6" href="impression.html" style="background-color:#01A659; font-weight: bold;" >
+            <a class="btn text-white col-md-6" href="impression.php" style="background-color:#01A659; font-weight: bold;" >
               Commander
               </a>
             </div>
         </div>
         <div class="col-3" >
           <div class="p-3"style="background-color:#EDEEEF; "><img src="img/Carte.jpg" style="width: 20vw">Cartes de visites<br>
-            <a class="btn text-white col-md-6" href="CartesDeVisites.html" style="background-color:#01A659; font-weight: bold;" >
+            <a class="btn text-white col-md-6" href="CartesDeVisites.php" style="background-color:#01A659; font-weight: bold;" >
               Commander
               </a>
             </div>
         </div>
         <div class="col-3">
           <div class="p-3" style="background-color:#EDEEEF;"><img src="img/Etiquette.jpg" style="width: 20vw">Etiquettes<br>
-            <a class="btn text-white col-md-6" href="Etiquette.html" style="background-color:#01A659; font-weight: bold;" >
+            <a class="btn text-white col-md-6" href="Etiquette.php" style="background-color:#01A659; font-weight: bold;" >
               Commander
               </a>
             </div>
         </div>
         <div class="col-3">
           <div class="p-3" style="background-color:#EDEEEF;"><img src="img/Casierdetelephone.jpg" style="width: 20vw">Casiers pour mobiles
-            <a class="btn text-white col-md-6" href="Casier.html" style="background-color:#01A659; font-weight: bold;" >
+            <a class="btn text-white col-md-6" href="Casier.php" style="background-color:#01A659; font-weight: bold;" >
               Commander
               </a>
             </div>
         </div>
         <div class="col-3">
           <div class="p-3" style="background-color:#EDEEEF;"><img src="img/Planning2.jpg" style="width: 20vw">Plannings de nettoyages
-            <a class="btn text-white col-md-6" href="Planning.html" style="background-color:#01A659; font-weight: bold;" >
+            <a class="btn text-white col-md-6" href="Planning.php" style="background-color:#01A659; font-weight: bold;" >
             Commander
             </a></div>
 </div>
