@@ -1,3 +1,63 @@
+<?php 
+  session_start()
+?>
+<?php
+if (isset($_SESSION['id'])) {
+    header('Location: ../index.php');
+    exit;
+} else {
+
+    // Si la variable "$_Post" contient des informations alors on les traitres
+    if (!empty($_POST)) {
+        extract($_POST);
+        $valid = true;
+
+        if (isset($_POST['connexion'])) {
+            $mail = htmlentities(strtolower(trim($_POST["mail"])));
+            $mdp = trim($_POST["mail"]);
+
+            if (empty($mail)) { // Vérification qu'il y est bien un mail de renseigné
+                $valid = false;
+                $er_mail = "Il faut mettre un mail";
+            } elseif (empty($mdp)) { // Vérification qu'il y est bien un mot de passe de renseigné
+                $valid = false;
+                $er_mdp = "Il faut mettre un mot de passe";
+            } else {
+                $req = $DB->prepare("SELECT * FROM user WHERE mail = ? ");
+                $req->execute(array($_POST["mail"]));
+
+                $req = $req->fetch();
+
+                if ($req["id_user"] == null or $req["id_user"] == false) {
+                    $valid = false;
+                    $er_mail = "Le mail est incorrecte";
+                } elseif (password_verify($req["mdp"], $_POST["mdp"]) == null or password_verify($req["mdp"], $_POST["mdp"]) == false) {
+
+                    if ($valid) {
+                        $_SESSION['id'] = $req['id_user']; // id de l'utilisateur unique pour les requêtes futures
+                        $_SESSION['pseudo'] = $req['pseudo'];
+                        $_SESSION['mail'] = $req['mail'];
+
+                        header('Location:  ../index.php');
+                        exit;
+                    }
+                } else {
+                    $valid = false;
+                    $er_mdp = "Le mot de passe est incorrecte";
+                }
+            }
+
+
+            // Si le token n'est pas vide alors on ne l'autorise pas à accéder au site
+            /*if ($req['confirmation'] <> NULL) {
+                $valid = false;
+                $er_mail = "Le compte n'a pas été validé";
+            }*/
+        }
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -24,14 +84,14 @@
     <div class="col-md-1">
       <img src="img/1x/Plan de travail 1.png" style="height: 80vh" />
     </div>
-    <form class="col-md-5">
+    <form method="post" class="col-md-5">
       <div class="mb-2 col-md-9">
         <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Adresse email</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="mail">
       </div>
       <div class="mb-3 col-md-9">
         <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Mot de passe</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <input type="password" class="form-control" id="exampleInputPassword1" name="mdp">
 
       </div>
       <div class="form-check">
@@ -41,9 +101,7 @@
         </label>
       </div>
       <br>
-      <a class="btn text-white col-md-6" href="index.php" style="background-color:#01A659; font-weight: bold;">
-        Connexion
-      </a>
+      <input type="submit" class="btn text-white col-md-6" style="background-color:#01A659; font-weight: bold;">
       <br><br>
       <a href="inscription.php" class="d-flex justify-content-between" style="color:#01A659;">Inscrivez-vous</a>
       <a href="questions.php" class="d-flex justify-content-end" style="color:#01A659">Questions ?</a>
