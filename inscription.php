@@ -1,6 +1,135 @@
 <!DOCTYPE html>
 <html lang="fr">
 
+<?php
+session_start();
+
+include("../commande/bd.php");
+
+// S'il y a une session alors on ne retourne plus sur cette page
+if (isset($_SESSION['id'])) {
+  header('Location: ../index.php');
+  exit;
+}
+
+// Si la variable "$_Post" contient des informations alors on les traitres
+if (!empty($_POST["pseudo"])) {
+  extract($_POST);
+  $valid = true;
+
+  // On se place sur le bon formulaire grâce au "name" de la balise "input"
+  if (isset($_POST['inscription'])) {
+    $pseudo = htmlentities(trim($_POST["pseudo"])); // on récupère le prénom
+    $mail = htmlentities(strtolower(trim($_POST["mail"]))); // On récupère le mail
+    $mdp = trim($_POST["mdp"]); // On récupère le mot de passe 
+    $confmdp = trim($_POST["confmdp"]); //  On récupère la confirmation du mot de passe     
+
+    //  Vérification du prénom
+    if (empty($pseudo)) {
+      $valid = false;
+      $er_prenom = ("Le prenom d' utilisateur ne peut pas être vide");
+    }
+
+    // Vérification du mail
+    if (empty($mail)) {
+      $valid = false;
+      $er_mail = "Le mail ne peut pas être vide";
+
+      // On vérifit que le mail est dans le bon format
+    } elseif (!preg_match("/^[a-z0-9\-_.]+@[a-z]+\.[a-z]{2,3}$/i", $mail)) {
+      $valid = false;
+      $er_mail = "Le mail n'est pas valide";
+    } else {
+      // On vérifit que le mail est disponible
+      $req_mail = $DB->query("SELECT mail 
+                FROM user WHERE mail = $mail");
+
+      if ($req_mail['mail'] <> "") {
+        $valid = false;
+        $er_mail = "Ce mail existe déjà";
+      }
+    }
+
+    // Vérification du mot de passe
+    if (empty($mdp)) {
+      $valid = false;
+      $er_mdp = "Le mot de passe ne peut pas être vide";
+    } elseif ($mdp != $confmdp) {
+      $valid = false;
+      $er_mdp = "La confirmation du mot de passe ne correspond pas";
+    }
+
+    // Si toutes les conditions sont remplies alors on fait le traitement
+    if ($valid == true) {
+
+      $date_creation_compte = date("y-m-d h:i:s");
+
+      // bin2hex(random_bytes($length))
+
+      $token = bin2hex(random_bytes(12));
+
+      $fmdp = password_hash($mdp, PASSWORD_DEFAULT);
+
+      // On insert nos données dans la table utilisateur
+      $req = $DB->prepare('INSERT INTO user(nom, mail, mdp, token, date_creation) VALUES(:nom, :mail, :mdp, :token, :date_creation)');
+      $req->execute(array(
+        'nom' => $nom,
+        'prenom' => $prenom,
+        'mail' => $mail,
+        'mdp' => $fmdp,
+        'token' => $token,
+        'date_creation' => $date_creation_compte
+      ));
+
+      header("location:../confirmation.php?nom=$pseudo");
+
+      /*
+
+
+                    $reqmail = $DB->query("SELECT *
+
+                      FROM utilisateur
+                    
+                      WHERE mail = $mail");                    
+                     
+                    
+                    $mail_to = $reqmail['mail']; 
+                    
+                     
+                    
+                    //=====Création du header de l'e-mail.
+                    
+                    $header = "From: Nathan.Stader@cpnv.ch\n";
+                    
+                    $header .= "MIME-version: 1.0\n";
+                    
+                    $header .= "Content-type: text/html; charset=utf-8\n";
+                    
+                    $header .= "Content-Transfer-ncoding: 8bit";
+                    
+                    //=======
+                    
+                     
+                    
+                    //=====Ajout du message au format HTML          
+                    
+                    $contenu = '<p>Bonjour ' . $reqmail['nom'] . ',</p><br>
+                    
+                     	<p>Veuillez confirmer votre compte <a href="http://www.domaine.com/conf.php?id=' . $reqmail['id'] . '&token=' . $token . '">Valider</a><p>';
+                    
+                                        
+                    
+                    mail($mail_to, 'Confirmation de votre compte', $contenu, $header);
+*/
+
+      /*
+                header('Location: ../index.php');
+                exit;*/
+    }
+  }
+}
+?>
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -25,30 +154,31 @@
       <img src="img/1x/Plan de travail 1.png" style="height: 80vh" />
     </div>
     <form class="col-md-5">
-      <div class="mb-2 col-md-9">
-        <br><br>
-        <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Adresse email</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <div class="mb-1 col-md-9" style="display: flex; flex-direction:row; justify-content:space-between;">
+        <div style="padding-right: 4vw;"><label for="name" class="form-1" style="font-weight: bold; padding-bottom:5px;">Nom</label> <input required type="text" name="name" class="form-control" id="exampleInputText1"></div>
+        <div><label for="" class="form-1" style="font-weight: bold; padding-bottom:5px;">Prénom</label> <input required type="text" name="prenom" class="form-control" id="exampleInputText1"></div>
       </div>
-      <select name="pets" id="pet-select">
-        <option value="sm-c1a">SM-C1a</option>
-        <option value="sm-c1b">SM-C1b</option>
-        <option value="sm-c1c">SM-C1c</option>
-        <option value="sm-c2a">SM-C2a</option>
-        <option value="sm-c2b">Autres</option>
+      <div class="mb-2 col-md-9">
+        <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Adresse email</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="mail" required>
+      </div>
+      <label for="pet-select" class="form-1" style="font-weight: bold; padding-bottom:5px;">Quel classe êtes vous ?</label><br>
+      <select name="class" id="pet-select" class="form-control" style="width: 60%;" required>
+        <option value="sm-c1a">A</option>
+        <option value="sm-c1b">B</option>
+        <option value="sm-c1c">C</option>
+        <option value="sm-c2b">Enseignant</option>
       </select>
       <br>
       <div class="mb-3 col-md-9">
         <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Mot de passe</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <input type="password" class="form-control" id="exampleInputPassword1" name="mdp" required>
       </div>
       <div class="mb-3 col-md-9">
         <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Confirmer votre mot de passe</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <input type="password" class="form-control" id="exampleInputPassword1" name="confmdp" required>
       </div>
-      <a class="btn text-white col-md-6" href="index.php" style="background-color:#01A659; font-weight: bold;">
-        Création du compte
-      </a>
+      <input type="submit" class="btn text-white col-md-6" style="background-color:#01A659; font-weight: bold;">
       <br><br>
       <a href="PageConnection.php" class=" d-flex justify-content-between" style="color:#01A659">Vous avez déjà un compte ?</a>
       <div class="col-md-9">
