@@ -1,5 +1,8 @@
 <?php 
   session_start()
+
+include("bd/bd.php");
+
 ?>
 <?php
 if (isset($_SESSION['id'])) {
@@ -88,10 +91,25 @@ if (isset($_SESSION['id'])) {
       <div class="mb-2 col-md-9">
         <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Adresse email</label>
         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="mail">
+        <?php
+        if (isset($er_mail)) {
+        ?>
+            <div><?= $er_mail ?></div>
+        <?php
+        }
+        ?>
       </div>
+
       <div class="mb-3 col-md-9">
         <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Mot de passe</label>
         <input type="password" class="form-control" id="exampleInputPassword1" name="mdp">
+        <?php
+        if (isset($er_mdp)) {
+        ?>
+            <div><?= $er_mdp ?></div>
+        <?php
+        }
+        ?>
 
       </div>
       <div class="form-check">
