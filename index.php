@@ -42,7 +42,7 @@ if (isset($_SESSION['id'])) {
             $_SESSION['mail'] = $req['mail'];
             $_SESSION['classe'] = $req['classe'];
             $_SESSION['annee'] = $req['annee'];
-            header('Location:espace-pao-pro-nathan-teo/accueil.php');
+            header('Location:accueil.php');
             exit;
           }
         } else {

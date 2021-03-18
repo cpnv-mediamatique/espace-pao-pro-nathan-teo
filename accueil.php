@@ -1,5 +1,10 @@
 <?php
-session_start()
+session_start();
+
+if (!isset($_SESSION['id'])) {
+  header('Location: index.php');
+  exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -23,8 +28,8 @@ session_start()
 <body style="font-family:Open Sans;">
   <!-- Start your project here-->
   <header class="col-12">
-    <?php echo $_SESSION['prenom']; ?>
-    <a href=""></a>
+    <?php echo $_SESSION['id']; ?>
+    <a href="commande/supprimer.php">supprimer</a>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="col-1"></div>
       <div class="col-2"><img src="img/logocpnvpng.png"></div>
