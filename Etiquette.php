@@ -1,5 +1,5 @@
-<?php 
-  session_start()
+<?php
+session_start()
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -31,7 +31,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav d-flex justify-content-between">
-            <a class="nav-link active" href="index.php">Home</a>
+            <a class="nav-link active" href="accueils.php">Home</a>
             <a class="nav-link" href="Service.php">Services</a>
             <a class="nav-link" href="pageAdmin.php">Admin</a>
             <a class="nav-link" href="pageCommande.php">Commande</a>
