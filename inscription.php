@@ -197,7 +197,7 @@ if (isset($_POST["prenom"])) {
       ?>
       <input type="submit" class="btn text-white col-md-6" style="background-color:#01A659; font-weight: bold;">
       <br><br>
-      <a href="PageConnection.php" class=" d-flex justify-content-between" style="color:#01A659">Vous avez déjà un compte ?</a>
+      <a href="index.php" class=" d-flex justify-content-between" style="color:#01A659">Vous avez déjà un compte ?</a>
       <div class="col-md-9">
         <a href="questions.php" class=" d-flex justify-content-end" style="color:#01A659">Questions ?</a>
       </div>

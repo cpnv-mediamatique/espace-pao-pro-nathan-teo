@@ -6,18 +6,17 @@ include("commande/bd.php");
 ?>
 <?php
 if (isset($_SESSION['id'])) {
-  header('Location: ../accueil.php');
+  header('Location: accueil.php');
   exit;
 } else {
 
   // Si la variable "$_Post" contient des informations alors on les traitres
   if (!empty($_POST)) {
-    extract($_POST);
     $valid = true;
 
     if (isset($_POST['connexion'])) {
       $mail = htmlentities(strtolower(trim($_POST["mail"])));
-      $mdp = trim($_POST["mail"]);
+      $mdp = trim($_POST["mdp"]);
 
       if (empty($mail)) { // Vérification qu'il y est bien un mail de renseigné
         $valid = false;
@@ -26,7 +25,7 @@ if (isset($_SESSION['id'])) {
         $valid = false;
         $er_mdp = "Il faut mettre un mot de passe";
       } else {
-        $req = $DB->prepare("SELECT * FROM user WHERE mail = ? ");
+        $req = $bdd->prepare("SELECT * FROM user WHERE mail = ? ");
         $req->execute(array($_POST["mail"]));
 
         $req = $req->fetch();
@@ -34,32 +33,33 @@ if (isset($_SESSION['id'])) {
         if ($req["id_user"] == null or $req["id_user"] == false) {
           $valid = false;
           $er_mail = "Le mail est incorrecte";
-        } elseif (password_verify($req["mdp"], $_POST["mdp"]) == null or password_verify($req["mdp"], $_POST["mdp"]) == false) {
-
-          if ($valid) {
+        } elseif (password_verify($mdp, $req["mdp"])) {
+          $valid = true;
+          if ($valid == true) {
             $_SESSION['id'] = $req['id_user']; // id de l'utilisateur unique pour les requêtes futures
-            $_SESSION['pseudo'] = $req['pseudo'];
+            $_SESSION['nom'] = $req['nom'];
+            $_SESSION['prenom'] = $req['prenom'];
             $_SESSION['mail'] = $req['mail'];
-
-            header('Location:  ../accueil.php');
+            $_SESSION['classe'] = $req['classe'];
+            $_SESSION['annee'] = $req['annee'];
+            header('Location:espace-pao-pro-nathan-teo/accueil.php');
             exit;
           }
         } else {
           $valid = false;
           $er_mdp = "Le mot de passe est incorrecte";
         }
-      }
 
 
-      // Si le token n'est pas vide alors on ne l'autorise pas à accéder au site
-      /*if ($req['confirmation'] <> NULL) {
+        // Si le token n'est pas vide alors on ne l'autorise pas à accéder au site
+        /*if ($req['confirmation'] <> NULL) {
                 $valid = false;
                 $er_mail = "Le compte n'a pas été validé";
             }*/
+      }
     }
   }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -68,7 +68,7 @@ if (isset($_SESSION['id'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>PageConnection</title>
+  <title>Page de Connexion</title>
   <!-- MDB icon -->
   <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
   <!-- Font Awesome -->
@@ -119,7 +119,7 @@ if (isset($_SESSION['id'])) {
         </label>
       </div>
       <br>
-      <input type="submit" class="btn text-white col-md-6" style="background-color:#01A659; font-weight: bold;">
+      <input type="submit" class="btn text-white col-md-6" style="background-color:#01A659; font-weight: bold;" name="connexion">
       <br><br>
       <a href="inscription.php" class="d-flex justify-content-between" style="color:#01A659;">Inscrivez-vous</a>
       <a href="questions.php" class="d-flex justify-content-end" style="color:#01A659">Questions ?</a>
