@@ -11,28 +11,28 @@ if (isset($_SESSION['id'])) {
   header('Location: accueil.php');
   exit;
 }
-
 // Si la variable "$_Post" contient des informations alors on les traitres
-if (!empty($_POST["pseudo"])) {
-  extract($_POST);
+if (isset($_POST["prenom"])) {
   $valid = true;
+  echo "test";
 
   // On se place sur le bon formulaire grâce au "name" de la balise "input"
-  if (isset($_POST['inscription'])) {
-    $pseudo = htmlentities(trim($_POST["pseudo"])); // on récupère le prénom
-    $nom = htmlentities(trim($_POST["name"])); // on récupère le prénom
+  if (isset($_POST['mail'])) {
+    $prenom = htmlentities(trim($_POST["prenom"])); // on récupère le prénom
+    $nom = htmlentities(trim($_POST["name"])); // on récupère le nom
     $mail = htmlentities(strtolower(trim($_POST["mail"]))); // On récupère le mail
+    $classe = $_POST["class"]; // On récupère la classe
     $mdp = trim($_POST["mdp"]); // On récupère le mot de passe 
     $confmdp = trim($_POST["confmdp"]); //  On récupère la confirmation du mot de passe     
 
     //  Vérification du prénom
-    if (empty($pseudo)) {
+    if (empty($prenom)) {
       $valid = false;
-      $err = ("Le prenom d' utilisateur ne peut pas être vide");
+      $err = ("Le prenom ne peut pas être vide");
     }
     if (empty($nom)) {
       $valid = false;
-      $err = ("Le prenom d' utilisateur ne peut pas être vide");
+      $err = ("Le nom ne peut pas être vide");
     }
 
     // Vérification du mail
@@ -46,12 +46,12 @@ if (!empty($_POST["pseudo"])) {
       $err = "Le mail n'est pas valide";
     } else {
       // On vérifit que le mail est disponible
-      $req_mail = $DB->query("SELECT mail 
+      $req_mail = $bdd->query("SELECT mail 
                 FROM user WHERE mail = $mail");
 
-      if ($req_mail['mail'] <> "") {
+      if ($req_mail['mail'] == $mail) {
         $valid = false;
-        $err = "Ce mail existe déjà";
+        $err = "Ce mail est déjà utiliser";
       }
     }
 
@@ -76,19 +76,22 @@ if (!empty($_POST["pseudo"])) {
       $fmdp = password_hash($mdp, PASSWORD_DEFAULT);
 
       // On insert nos données dans la table utilisateur
-      $req = $DB->prepare('INSERT INTO user(nom, prenom, classe, annee, mail, mdp, token, date_creation) VALUES(:nom, :prenom, :classe, :annee, :mail, :mdp, :token, :date_creation)');
+      $req = $bdd->prepare('INSERT INTO user(nom, prenom, classe, annee, mail, mdp, token, date_creation) VALUES(:nom, :prenom, :classe, :annee, :mail, :mdp, :token, :date_creation)');
       $req->execute(array(
-        'nom' => $nom,
-        'prenom' => $prenom,
-        'mail' => $mail,
-        'mdp' => $fmdp,
-        'classe' => $classe,
-        'annee' => "1",
-        'token' => $token,
-        'date_creation' => $date_creation_compte
+        ':nom' => $nom,
+        ':prenom' => $prenom,
+        ':classe' => $classe,
+        ':annee' => "1",
+        ':mail' => $mail,
+        ':mdp' => $fmdp,
+        ':token' => $token,
+        ':date_creation' => $date_creation_compte
       ));
 
-      header("location:../confirmation.php?nom=$pseudo");
+
+      echo $token . " " . $date_creation_compte;
+
+      header("location: index.php");
 
       /*
 
@@ -160,7 +163,7 @@ if (!empty($_POST["pseudo"])) {
     <div class="col-md-1">
       <img src="img/1x/Plan de travail 1.png" style="height: 80vh" />
     </div>
-    <form class="col-md-5">
+    <form class="col-md-5" method="post">
       <div class="mb-1 col-md-9" style="display: flex; flex-direction:row; justify-content:space-between;">
         <div style="padding-right: 4vw;"><label for="name" class="form-1" style="font-weight: bold; padding-bottom:5px;">Nom</label> <input required type="text" name="name" class="form-control" id="exampleInputText1"></div>
         <div><label for="" class="form-1" style="font-weight: bold; padding-bottom:5px;">Prénom</label> <input required type="text" name="prenom" class="form-control" id="exampleInputText1"></div>
@@ -171,10 +174,10 @@ if (!empty($_POST["pseudo"])) {
       </div>
       <label for="pet-select" class="form-1" style="font-weight: bold; padding-bottom:5px;">Quel classe êtes vous ?</label><br>
       <select name="class" id="pet-select" class="form-control" style="width: 60%;" required>
-        <option value="sm-c1a">A</option>
-        <option value="sm-c1b">B</option>
-        <option value="sm-c1c">C</option>
-        <option value="sm-c2b">Enseignant</option>
+        <option value="a">A</option>
+        <option value="b">B</option>
+        <option value="c">C</option>
+        <option value="e">Enseignant</option>
       </select>
       <br>
       <div class="mb-3 col-md-9">
@@ -185,7 +188,13 @@ if (!empty($_POST["pseudo"])) {
         <label for="form-label" class="form-1" style="font-weight: bold; padding-bottom:5px;">Confirmer votre mot de passe</label>
         <input type="password" class="form-control" id="exampleInputPassword1" name="confmdp" required>
       </div>
-      <p><?= $err ?></p>
+      <?php
+      if (isset($err)) {
+      ?>
+        <p style="color: rgb(255, 0, 0); font-weight: 900;"><?= $err ?> !</p>
+      <?php
+      }
+      ?>
       <input type="submit" class="btn text-white col-md-6" style="background-color:#01A659; font-weight: bold;">
       <br><br>
       <a href="PageConnection.php" class=" d-flex justify-content-between" style="color:#01A659">Vous avez déjà un compte ?</a>
