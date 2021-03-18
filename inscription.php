@@ -1,7 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
-
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
 session_start();
 
 include("commande/bd.php");
@@ -11,134 +17,44 @@ if (isset($_SESSION['id'])) {
   header('Location: accueil.php');
   exit;
 }
-// Si la variable "$_Post" contient des informations alors on les traitres
-if (isset($_POST["prenom"])) {
-  $valid = true;
-  echo "test";
 
-  // On se place sur le bon formulaire grâce au "name" de la balise "input"
-  if (isset($_POST['mail'])) {
-    $prenom = htmlentities(trim($_POST["prenom"])); // on récupère le prénom
-    $nom = htmlentities(trim($_POST["name"])); // on récupère le nom
-    $mail = htmlentities(strtolower(trim($_POST["mail"]))); // On récupère le mail
-    $classe = $_POST["class"]; // On récupère la classe
-    $mdp = trim($_POST["mdp"]); // On récupère le mot de passe 
-    $confmdp = trim($_POST["confmdp"]); //  On récupère la confirmation du mot de passe     
+//Instantiation and passing `true` enables exceptions
+$mail = new PHPMailer(true);
 
-    //  Vérification du prénom
-    if (empty($prenom)) {
-      $valid = false;
-      $err = ("Le prenom ne peut pas être vide");
-    }
-    if (empty($nom)) {
-      $valid = false;
-      $err = ("Le nom ne peut pas être vide");
-    }
+try {
+  //Server settings
+  $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+  $mail->isSMTP();                                            //Send using SMTP
+  $mail->Host       = 'smtp.example.com';                     //Set the SMTP server to send through
+  $mail->SMTPAuth   = FALSE;                                   //Enable SMTP authentication
+  // $mail->Username   = 'user@example.com';                     //SMTP username
+  // $mail->Password   = 'secret';                               //SMTP password
+  $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+  $mail->Port       = 587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
-    // Vérification du mail
-    if (empty($mail)) {
-      $valid = false;
-      $err = "Le mail ne peut pas être vide";
-
-      // On vérifit que le mail est dans le bon format
-    } elseif (!preg_match("/^[a-z0-9\-_.]+@[a-z]+\.[a-z]{2,3}$/i", $mail)) {
-      $valid = false;
-      $err = "Le mail n'est pas valide";
-    } else {
-      // On vérifit que le mail est disponible
-      $req_mail = $bdd->query("SELECT mail 
-                FROM user WHERE mail = $mail");
-
-      if ($req_mail['mail'] == $mail) {
-        $valid = false;
-        $err = "Ce mail est déjà utiliser";
-      }
-    }
-
-    // Vérification du mot de passe
-    if (empty($mdp)) {
-      $valid = false;
-      $err = "Le mot de passe ne peut pas être vide";
-    } elseif ($mdp != $confmdp) {
-      $valid = false;
-      $err = "La confirmation du mot de passe ne correspond pas";
-    }
-
-    // Si toutes les conditions sont remplies alors on fait le traitement
-    if ($valid == true) {
-
-      $date_creation_compte = date("y-m-d h:i:s");
-
-      // bin2hex(random_bytes($length))
-
-      $token = bin2hex(random_bytes(12));
-
-      $fmdp = password_hash($mdp, PASSWORD_DEFAULT);
-
-      // On insert nos données dans la table utilisateur
-      $req = $bdd->prepare('INSERT INTO user(nom, prenom, classe, annee, mail, mdp, token, date_creation) VALUES(:nom, :prenom, :classe, :annee, :mail, :mdp, :token, :date_creation)');
-      $req->execute(array(
-        ':nom' => $nom,
-        ':prenom' => $prenom,
-        ':classe' => $classe,
-        ':annee' => "1",
-        ':mail' => $mail,
-        ':mdp' => $fmdp,
-        ':token' => $token,
-        ':date_creation' => $date_creation_compte
-      ));
+  //Recipients
+  $mail->setFrom('from@example.com', 'Mailer');
+  $mail->addAddress('joe@example.net', 'Joe User');     //Add a recipient
+  $mail->addAddress('ellen@example.com');               //Name is optional
+  $mail->addReplyTo('info@example.com', 'Information');
+  $mail->addCC('cc@example.com');
+  $mail->addBCC('bcc@example.com');
 
 
-      echo $token . " " . $date_creation_compte;
+  //Content
+  $mail->isHTML(true);                                  //Set email format to HTML
+  $mail->Subject = 'Here is the subject';
+  $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+  $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-      header("location: index.php");
-
-      /*
-
-
-                    $reqmail = $DB->query("SELECT *
-
-                      FROM utilisateur
-                    
-                      WHERE mail = $mail");                    
-                     
-                    
-                    $mail_to = $reqmail['mail']; 
-                    
-                     
-                    
-                    //=====Création du header de l'e-mail.
-                    
-                    $header = "From: Nathan.Stader@cpnv.ch\n";
-                    
-                    $header .= "MIME-version: 1.0\n";
-                    
-                    $header .= "Content-type: text/html; charset=utf-8\n";
-                    
-                    $header .= "Content-Transfer-ncoding: 8bit";
-                    
-                    //=======
-                    
-                     
-                    
-                    //=====Ajout du message au format HTML          
-                    
-                    $contenu = '<p>Bonjour ' . $reqmail['nom'] . ',</p><br>
-                    
-                     	<p>Veuillez confirmer votre compte <a href="http://www.domaine.com/conf.php?id=' . $reqmail['id'] . '&token=' . $token . '">Valider</a><p>';
-                    
-                                        
-                    
-                    mail($mail_to, 'Confirmation de votre compte', $contenu, $header);
-*/
-
-      /*
-                header('Location: ../index.php');
-                exit;*/
-    }
-  }
+  $mail->send();
+  echo 'Message has been sent';
+} catch (Exception $e) {
+  echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
 ?>
+<!DOCTYPE html>
+<html lang="fr">
 
 <head>
   <meta charset="UTF-8" />
