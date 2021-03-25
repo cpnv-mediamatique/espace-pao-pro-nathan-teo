@@ -5,11 +5,7 @@ session_start();
 
 include("../commande/bd.php");
 
-// S'il y a une session alors on ne retourne plus sur cette page
-if (isset($_SESSION['id'])) {
-    header('Location: ../accueil.php');
-    exit;
-}
+
 // Si la variable "$_Post" contient des informations alors on les traitres
 if (isset($_POST["prenom"])) {
     $valid = true;
