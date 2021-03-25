@@ -7,18 +7,17 @@ include("../commande/bd.php");
 
 
 // Si la variable "$_Post" contient des informations alors on les traitres
-if (isset($_SESSION["prenom"])) {
+if (isset($_POST["prenom"])) {
     $valid = true;
 
     // On se place sur le bon formulaire grâce au "name" de la balise "input"
-    if (isset($_SESSION['mail'])) {
-        $prenom = htmlentities(trim($_SESSION["prenom"])); // on récupère le prénom
-        $nom = htmlentities(trim($_SESSION["name"])); // on récupère le nom
-        $mail = htmlentities(strtolower(trim($_SESSION["mail"]))); // On récupère le mail
-        $classe = $_SESSION["class"]; // On récupère la classe
-        $mdp = trim($_SESSION["mdp"]); // On récupère le mot de passe 
-        $confmdp = trim($_SESSION["confmdp"]); //  On récupère la confirmation du mot de passe     
-        $token = htmlentities($_SESSION["token"]); //  On récupère la confirmation du mot de passe     
+    if (isset($_POST['mail'])) {
+        $prenom = htmlentities(trim($_POST["prenom"])); // on récupère le prénom
+        $nom = htmlentities(trim($_POST["name"])); // on récupère le nom
+        $mail = htmlentities(strtolower(trim($_POST["mail"]))); // On récupère le mail
+        $classe = $_POST["class"]; // On récupère la classe
+        $mdp = trim($_POST["mdp"]); // On récupère le mot de passe 
+        $confmdp = trim($_POST["confmdp"]); //  On récupère la confirmation du mot de passe     
 
         //  Vérification du prénom
         if (empty($prenom)) {
