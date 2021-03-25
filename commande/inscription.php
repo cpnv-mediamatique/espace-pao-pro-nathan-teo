@@ -13,7 +13,6 @@ if (isset($_SESSION['id'])) {
 // Si la variable "$_Post" contient des informations alors on les traitres
 if (isset($_POST["prenom"])) {
     $valid = true;
-    echo "test";
 
     // On se place sur le bon formulaire grâce au "name" de la balise "input"
     if (isset($_POST['mail'])) {
@@ -87,8 +86,6 @@ if (isset($_POST["prenom"])) {
                 ':date_creation' => $date_creation_compte
             ));
 
-
-            echo $token . " " . $date_creation_compte;
 
             header("location: ../index.php");
         }

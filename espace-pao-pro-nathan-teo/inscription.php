@@ -49,7 +49,6 @@ if (isset($_POST['sumbit'])) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
   }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
