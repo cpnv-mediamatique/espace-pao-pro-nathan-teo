@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+include("commande/bd.php");
+
+
+if (isset($_SESSION['id'])) {
+  header('Location: accueil.php');
+  exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 

@@ -12,9 +12,9 @@ if (isset($_POST["prenom"])) {
 
     // On se place sur le bon formulaire grâce au "name" de la balise "input"
     if (isset($_POST['mail'])) {
-        $prenom = htmlentities(trim($_POST["prenom"])); // on récupère le prénom
-        $nom = htmlentities(trim($_POST["name"])); // on récupère le nom
-        $mail = htmlentities(strtolower(trim($_POST["mail"]))); // On récupère le mail
+        $prenom = htmlspecialchars(trim($_POST["prenom"])); // on récupère le prénom
+        $nom = htmlspecialchars(trim($_POST["name"])); // on récupère le nom
+        $mail = htmlspecialchars(strtolower(trim($_POST["mail"]))); // On récupère le mail
         $classe = $_POST["class"]; // On récupère la classe
         $mdp = trim($_POST["mdp"]); // On récupère le mot de passe 
         $confmdp = trim($_POST["confmdp"]); //  On récupère la confirmation du mot de passe     
