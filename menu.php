@@ -1,12 +1,3 @@
-<?php
-
-if ($_SESSION['etudiant'] === "0") {
-}
-
-
-
-?>
-
 <div class="navbar-nav d-flex justify-content-between">
     <a class="nav-link active" href="accueil.php">Home</a>
     <a class="nav-link" href="Service.php">Services</a>
