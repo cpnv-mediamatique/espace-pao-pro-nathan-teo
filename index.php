@@ -35,10 +35,16 @@ if (isset($_SESSION['id'])) {
           $er_mail = "Le mail est incorrecte";
         } elseif (password_verify($mdp, $req["mdp"])) {
           $valid = true;
+          if ($req['enseignant'] == null or $req['enseignant'] == false) {
+            $etudiant === "0";
+          } else {
+            $etudiant === "1";
+          }
           if ($valid == true) {
             $_SESSION['id'] = $req['id_user']; // id de l'utilisateur unique pour les requêtes futures
             $_SESSION['nom'] = $req['nom'];
             $_SESSION['prenom'] = $req['prenom'];
+            $_SESSION['etudiant'] = $etudiant;
             $_SESSION['mail'] = $req['mail'];
             $_SESSION['classe'] = $req['classe'];
             $_SESSION['annee'] = $req['annee'];
