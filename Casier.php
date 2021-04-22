@@ -47,6 +47,7 @@ if (!isset($_SESSION['id'])) {
     </nav>
 
   </header>
+  <form action=""></form>
   <main style="padding-bottom:6vw;">
     <div class="col-12 container">
       <h1 class=" display-3" style="color:#01A659; font-weight: 500; padding-top:2em;">Casiers pour mobile</h1>
