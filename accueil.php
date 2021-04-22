@@ -37,15 +37,10 @@ if (!isset($_SESSION['id'])) {
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse  d-md-flex justify-content-between" id="navbarNavAltMarkup">
-          <div class="navbar-nav d-flex justify-content-between">
-            <a class="nav-link active" href="accueil.php">Home</a>
-            <a class="nav-link" href="Service.php">Services</a>
-            <a class="nav-link" href="pageAdmin.php">Admin</a>
-            <a class="nav-link" href="pageCommande.php">Commande</a>
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
-          </div>
-        </div>
+        <?php
+        include("menu.php");
+        ?>
+      </div>
       </div>
       <div class="col-1" id="logo"><img src="img/Icon metro-profile.svg"></div>
     </nav>
