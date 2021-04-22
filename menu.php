@@ -2,7 +2,7 @@
     <a class="nav-link active" href="accueil.php">Home</a>
     <a class="nav-link" href="Service.php">Services</a>
     <?php
-    if ($_SESSION['etudiant'] === "1") {
+    if ($_SESSION['etudiant'] === "1" or $_SESSION['etudiant'] === "2") {
     ?>
         <a class="nav-link" href="pageAdmin.php">Admin</a>
         <a class="nav-link" href="pageCommande.php">Commande</a>
