@@ -53,41 +53,54 @@ if (!isset($_SESSION['id'])) {
     </div>
     <div class="container">
       <div class="row g-2">
-        <div class="col-3">
-          <div class="p-3" style="background-color:#EDEEEF; "><img src="img/Impression/Imprimer01.jpg" style="width: 20vw">Impression<br>
-            <a class="btn text-white col-md-6" href="impression.php" style="background-color:#01A659; font-weight: bold;">
-              Commander
-            </a>
+        <?php
+        if ($_SESSION['etudiant'] !== "0") {
+        ?>
+          <div class="col-3">
+            <div class="p-3" style="background-color:#EDEEEF; "><img src="img/Impression/Imprimer01.jpg" style="width: 100%">Impression<br>
+              <a class="btn text-white col-md-6" href="impression.php" style="background-color:#01A659; font-weight: bold; width:100% ;">
+                Commander
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="col-3">
-          <div class="p-3" style="background-color:#EDEEEF; "><img src="img/Carte.jpg" style="width: 20vw">Cartes de visites<br>
-            <a class="btn text-white col-md-6" href="CartesDeVisites.php" style="background-color:#01A659; font-weight: bold;">
-              Commander
-            </a>
+        <?php
+        }
+        ?>
+        <?php
+        if ($_SESSION['etudiant'] !== "1") {
+        ?>
+          <div class="col-3">
+            <div class="p-3" style="background-color:#EDEEEF; "><img src="img/Carte.jpg" style="width: 100%">Cartes de visites<br>
+              <a class="btn text-white col-md-6" href="CartesDeVisites.php" style="background-color:#01A659; font-weight: bold; width:100%  ;">
+                Commander
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="col-3">
-          <div class="p-3" style="background-color:#EDEEEF;"><img src="img/Etiquette.jpg" style="width: 20vw">Etiquettes<br>
-            <a class="btn text-white col-md-6" href="Etiquette.php" style="background-color:#01A659; font-weight: bold;">
-              Commander
-            </a>
+
+          <div class="col-3">
+            <div class="p-3" style="background-color:#EDEEEF;"><img src="img/Etiquette.jpg" style="width: 100%">Etiquettes<br>
+              <a class="btn text-white col-md-6" href="Etiquette.php" style="background-color:#01A659; font-weight: bold; width:100%  ;">
+                Commander
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="col-3">
-          <div class="p-3" style="background-color:#EDEEEF;"><img src="img/Casierdetelephone.jpg" style="width: 20vw">Casiers pour mobiles
-            <a class="btn text-white col-md-6" href="Casier.php" style="background-color:#01A659; font-weight: bold;">
-              Commander
-            </a>
+          <div class="col-3">
+            <div class="p-3" style="background-color:#EDEEEF;"><img src="img/Casierdetelephone.jpg" style="width: 100%">Casiers pour mobiles
+              <a class="btn text-white col-md-6" href="Casier.php" style="background-color:#01A659; font-weight: bold; width:100% ;">
+                Commander
+              </a>
+            </div>
           </div>
-        </div>
-        <div class="col-3">
-          <div class="p-3" style="background-color:#EDEEEF;"><img src="img/Planning2.jpg" style="width: 20vw">Plannings de nettoyages
-            <a class="btn text-white col-md-6" href="Planning.php" style="background-color:#01A659; font-weight: bold;">
-              Commander
-            </a>
+          <div class="col-3">
+            <div class="p-3" style="background-color:#EDEEEF;"><img src="img/Planning2.jpg" style="width: 100%">Plannings de nettoyages
+              <a class="btn text-white col-md-6" href="Planning.php" style="background-color:#01A659; font-weight: bold; width:100% ;">
+                Commander
+              </a>
+            </div>
           </div>
-        </div>
+        <?php
+        }
+        ?>
       </div>
     </div>
   </main>

@@ -4,6 +4,9 @@ if (!isset($_SESSION['id'])) {
   header('Location: index.php');
   exit;
 }
+if ($_SESSION['etudiant'] !== "2") {
+  header("location: accueil.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
