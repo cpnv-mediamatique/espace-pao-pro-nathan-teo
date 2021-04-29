@@ -11,17 +11,18 @@
     ?>
     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
 </div>
-    <span style="cursor:pointer" onclick="openNav()";> <img id="meme" src="img/Icon metro-profile.svg"></span>
+    <div class="col-1" id="logo"><span style="cursor:pointer" onclick="openNav()";> <img id="meme" src="img/Icon metro-profile.svg"></span> </div>
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <p> <?php echo $_SESSION['nom']?></p>
-        <p> <?php echo $_SESSION['prenom']?></p>
-        <?php if ($_SESSION['etudiant'] !== 2){?>
-          <?= $_SESSION['classe'] ?>
-        <?php } ?>
-        <p>  </p>
-        <a href="commande/supprimer.php">Déconnexion</a>
+        <p class="texte-menu"> Nom: <?php echo $_SESSION['nom']?></p>
+        <p class="texte-menu"> Prenom: <?php echo $_SESSION['prenom']?></p>
+        <p class="texte-menu"> Classe: 
+            <?php if ($_SESSION['etudiant'] !== 2){?>
+                <?= $_SESSION['classe'] ?>
+            <?php } ?>
+        </p>
+        <a class="texte-menu" href="commande/supprimer.php">Déconnexion</a>
     </div>
     <style>
             body {
@@ -71,6 +72,16 @@
 
         #meme{
             width: 150px;
+        }
+
+        .texte-menu{
+            font-size: 20px;
+            color: white;
+            position: relative;
+            margin: 3% !important;
+            left: 15% !important;
+            padding: 0 !important;
+            text-align: left !important;
         }
         
         @media screen and (max-height: 450px) {
