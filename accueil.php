@@ -1,5 +1,4 @@
 <?php
-include("side-menu.php");
 session_start();
 
 if (!isset($_SESSION['id'])) {
@@ -39,7 +38,7 @@ if (!isset($_SESSION['id'])) {
           <i class="fas fa-bars"></i>
         </button>
         <?php
-        include("menu.php");
+        include("menu.php"); 
         ?>
       </div>
       </div>
