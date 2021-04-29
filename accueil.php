@@ -1,4 +1,5 @@
 <?php
+include("side-menu.php");
 session_start();
 
 if (!isset($_SESSION['id'])) {
@@ -42,7 +43,8 @@ if (!isset($_SESSION['id'])) {
         ?>
       </div>
       </div>
-      <div class="col-1" id="logo"><img src="img/Icon metro-profile.svg"></div>
+      <div class="col-1" id="logo"><span style="cursor:pointer" onclick="openNav()";> <img id="meme" src="../img/Icon metro-profile.svg"></span>
+</div>
     </nav>
 
   </header>

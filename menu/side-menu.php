@@ -1,5 +1,4 @@
-
-    <span style="cursor:pointer" onclick="openNav()";> <img id="meme" src="../img/Icon metro-profile.svg"></span>
+    <!-- <span style="cursor:pointer" onclick="openNav()";> <img id="meme" src="../img/Icon metro-profile.svg"></span> -->
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
