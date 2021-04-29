@@ -43,7 +43,7 @@ if (!isset($_SESSION['id'])) {
         ?>
       </div>
       </div>
-      <div class="col-1" id="logo"><span style="cursor:pointer" onclick="openNav()";> <img id="meme" src="../img/Icon metro-profile.svg"></span>
+      <div class="col-1" id="logo"><span style="cursor:pointer" onclick="openNav()";> <img id="meme" src="img/Icon metro-profile.svg"></span>
 </div>
     </nav>
 
