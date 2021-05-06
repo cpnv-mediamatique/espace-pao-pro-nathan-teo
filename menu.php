@@ -60,6 +60,7 @@
         .sidenav .closebtn {
           position: absolute;
           top: 0;
+          color: white;
           right: 25px;
           font-size: 36px;
           margin-left: 50px;
