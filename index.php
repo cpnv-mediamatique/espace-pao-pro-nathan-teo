@@ -36,11 +36,13 @@ if (isset($_SESSION['id'])) {
         } elseif (password_verify($mdp, $req["mdp"])) {
           $valid = true;
           if ($req['enseignant'] == null or $req['enseignant'] == false) {
-            $etudiant === "0";
+            $etudiant = 0;
           } elseif ($req['enseignant'] === "1") {
-            $etudiant === "1";
+            $etudiant = 1;
           } elseif ($req['enseignant'] === "2") {
-            $etudiant === "2";
+            $etudiant = 2;
+          } else {
+            $etudiant = 3;
           }
           if ($valid == true) {
             $_SESSION['id'] = $req['id_user']; // id de l'utilisateur unique pour les requêtes futures
