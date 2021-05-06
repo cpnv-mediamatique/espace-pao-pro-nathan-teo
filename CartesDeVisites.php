@@ -78,15 +78,15 @@ if (!isset($_SESSION['id'])) {
       </div>
     </div>
     <div class="container">
-      <div class="d-flex justify-content-end">
-        <form action="commande/achat.php?id=1" method="post">
+      <form action="commande/achat.php?id=1" method="post">
+        <div class="d-flex justify-content-end">
           <div>
             <input type="number" id="tentacles" name="tentacles" min="10" max="50" step="10">
 
             <input type="submit" class="btn text-white col-md-2 " value="Ajouter au panier" style="background-color:#01A659; font-weight: bold; width:100%;">
           </div>
 
-      </div>
+        </div>
       </form>
     </div>
   </main>

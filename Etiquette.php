@@ -70,13 +70,16 @@ if (!isset($_SESSION['id'])) {
     </div>
     <div class="container">
       <div class="d-flex justify-content-end">
-        <div>
-          <input type="number" id="tentacles" name="tentacles" min="10" max="50" step="10">
+        <form action="commande/achat.php?id=3" method="post">
+          <div class="d-flex justify-content-end">
+            <div>
+              <input type="number" id="tentacles" name="tentacles" min="10" max="100" step="10" required>
 
-        </div>
-        <a class="btn text-white col-md-2 " href="#" style="background-color:#01A659; font-weight: bold;">
-          Ajouter au panier
-        </a>
+              <input type="submit" class="btn text-white col-md-2 " value="Ajouter au panier" style="background-color:#01A659; font-weight: bold; width:100%;">
+            </div>
+
+          </div>
+        </form>
       </div>
     </div>
   </main>

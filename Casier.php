@@ -64,15 +64,17 @@ if (!isset($_SESSION['id'])) {
     </div>
     <div class="container">
       <div class="d-flex justify-content-end">
-        <div>
-          <input type="number" id="tentacles" name="tentacles" min="1" max="5">
+        <form action="commande/achat.php?id=2" method="post">
+          <div class="d-flex justify-content-end">
+            <div>
+              <input type="number" id="tentacles" name="tentacles" min="10" max="50" required>
 
-        </div>
-        <a class="btn text-white col-md-2 " href="#" style="background-color:#01A659; font-weight: bold;">
-          Ajouter au panier
-        </a>
+              <input type="submit" class="btn text-white col-md-2 " value="Ajouter au panier" style="background-color:#01A659; font-weight: bold; width:100%;">
+            </div>
+
+          </div>
+        </form>
       </div>
-    </div>
   </main>
   <footer>
     <p>Souscrivez à notre newsletter en nous indiquant votre email à l’adresse : <br>

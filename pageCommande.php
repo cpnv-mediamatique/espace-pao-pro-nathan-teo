@@ -91,8 +91,8 @@ $achat =  $bdd->query("SELECT * FROM achat_produit ");
             while ($valeur = $prod->fetch()) {
 
             ?>
+              <form action="commande/modcomm.php?id=<?= $valeur['id_achat_cdv'] ?>" id="my_form" method="post">
 
-              <form action="commande/modcomm.php?etat=<?= $valeur['id_achat_cdv'] ?>">
                 <tr>
                   <th><?= $valeur['produit'] ?></th>
                   <td><?= $valeur['date'] ?></td>

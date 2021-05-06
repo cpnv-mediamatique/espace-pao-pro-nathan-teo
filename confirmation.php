@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
 
     $prenom = htmlentities(trim($_POST["prenom"])); // on récupère le prénom
     $nom = htmlentities(trim($_POST["name"])); // on récupère le nom
-    $mail = htmlentities(strtolower(trim($_POST["mail"]))); // On récupère le mail
+    $email = htmlentities(strtolower(trim($_POST["mail"]))); // On récupère le mail
     $classe = $_POST["class"]; // On récupère la classe
     $mdp = trim($_POST["mdp"]); // On récupère le mot de passe 
     $confmdp = trim($_POST["confmdp"]); //  On récupère la confirmation du mot de passe     
@@ -71,7 +71,7 @@ if (isset($_POST['submit'])) {
 
             //Recipients
             $mail->setFrom('espace.pao@cpnv.ch', 'Espace-Pao');
-            $mail->addAddress("$mail", "$prenom $name");     //Add a recipient
+            $mail->addAddress("$email", "$prenom $name");     //Add a recipient
             $mail->addReplyTo('espace.pao@cpnv.ch', 'Information');
 
 
@@ -90,7 +90,7 @@ if (isset($_POST['submit'])) {
 
         $_SESSION['nom'] = $nom;
         $_SESSION['prenom'] = $prenom;
-        $_SESSION['mail'] = $mail;
+        $_SESSION['mail'] = $email;
         $_SESSION['classe'] = $classe;
         $_SESSION['mdp'] = $mdp;
         $_SESSION['confmdp'] = $confmdp;
