@@ -1,13 +1,14 @@
-
-    <span style="cursor:pointer" onclick="openNav()";> <img id="meme" src="../img/Icon metro-profile.svg"></span>
+    <!-- <span style="cursor:pointer" onclick="openNav()";> <img id="meme" src="../img/Icon metro-profile.svg"></span> -->
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <p> <?php echo $_SESSION['nom']?></p>
         <p> <?php echo $_SESSION['prenom']?></p>
-        
+        <?php if ($_SESSION['etudiant'] !== 2){?>
+          <?= $_SESSION['classe'] ?>
+        <?php } ?>
+        <p>  </p>
         <a href="commande/supprimer.php">Déconnexion</a>
-        <a href="#">Contact</a>
     </div>
     <style>
             body {

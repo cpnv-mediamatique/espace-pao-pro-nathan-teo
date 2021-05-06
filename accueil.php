@@ -38,11 +38,10 @@ if (!isset($_SESSION['id'])) {
           <i class="fas fa-bars"></i>
         </button>
         <?php
-        include("menu.php");
+        include("menu.php"); 
         ?>
       </div>
       </div>
-      <div class="col-1" id="logo"><img src="img/Icon metro-profile.svg"></div>
     </nav>
 
   </header>

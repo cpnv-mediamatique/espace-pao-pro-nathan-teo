@@ -53,7 +53,6 @@ $achat =  $bdd->query("SELECT * FROM achat_produit ");
           ?>
         </div>
       </div>
-      <div class="col-1" id="logo"><img src="img/Icon metro-profile.svg"></div>
     </nav>
 
   </header>

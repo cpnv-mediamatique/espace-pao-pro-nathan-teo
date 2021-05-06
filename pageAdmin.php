@@ -42,7 +42,6 @@ if ($_SESSION['etudiant'] !== "2") {
           ?>
         </div>
       </div>
-      <div class="col-1" id="logo"><img src="img/Icon metro-profile.svg"></div>
     </nav>
 
   </header>
