@@ -53,7 +53,7 @@ if (!isset($_SESSION['id'])) {
     <div class="container">
       <div class="row g-2">
         <?php
-        if ($_SESSION['etudiant'] !== "0") {
+        if ($_SESSION['etudiant'] = 0) {
         ?>
           <div class="col-3">
             <div class="p-3" style="background-color:#EDEEEF; "><img src="img/Impression/Imprimer01.jpg" style="width: 100%">Impression<br>
@@ -66,8 +66,15 @@ if (!isset($_SESSION['id'])) {
         }
         ?>
         <?php
-        if ($_SESSION['etudiant'] !== "1") {
+        if ($_SESSION['etudiant'] = 1 or $_SESSION['etudiant'] = 2) {
         ?>
+          <div class="col-3">
+            <div class="p-3" style="background-color:#EDEEEF; "><img src="img/Impression/Imprimer01.jpg" style="width: 100%">Impression<br>
+              <a class="btn text-white col-md-6" href="impression.php" style="background-color:#01A659; font-weight: bold; width:100% ;">
+                Commander
+              </a>
+            </div>
+          </div>
           <div class="col-3">
             <div class="p-3" style="background-color:#EDEEEF; "><img src="img/Carte.jpg" style="width: 100%">Cartes de visites<br>
               <a class="btn text-white col-md-6" href="CartesDeVisites.php" style="background-color:#01A659; font-weight: bold; width:100%  ;">

@@ -4,9 +4,20 @@ if (!isset($_SESSION['id'])) {
   header('Location: index.php');
   exit;
 }
-if ($_SESSION['etudiant'] !== "2") {
+if ($_SESSION['etudiant'] != 2 && $_SESSION['etudiant'] != 3) {
   header("location: accueil.php");
 }
+
+include('commande/bd.php');
+
+$achat =  $bdd->query("SELECT * FROM achat_produit ");
+
+
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -71,45 +82,30 @@ if ($_SESSION['etudiant'] !== "2") {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>Affiche</th>
-              <td>07.01.2021</td>
-              <td>@desfg</td>
-              <td><select name="pets" id="pet-select">
-                  <option value="Eleve">Nouveau</option>
-                  <option value="Eleve">En cours</option>
-                  <option value="EleveCBE">Prête</option>
-                  <option value="Enseignent">Refuser</option>
-                </select>
-                <a style="font-style: italic; padding-left: 3px;">*a été modifier</a>
-              </td>
+            <?php while ($valeur = $achat->fetch()) {
 
-              <td><a class="text-danger text-decoration-underline" href="">Supprimer</a></td>
-            </tr>
-            <tr>
-              <th>Carte de visite</th>
-              <td>01.01.2021</td>
-              <td>@fat</td>
-              <td><select name="pets" id="pet-select">
-                  <option value="Eleve">Nouveau</option>
-                  <option value="Eleve">En cours</option>
-                  <option value="EleveCBE">Prête</option>
-                  <option value="Enseignent">Refuser</option>
-                </select></td>
-              <td><a class="text-danger text-decoration-underline" href="">Supprimer</a></td>
-            </tr>
-            <tr>
-              <th>Etiquette</th>
-              <td>25.11.2020</td>
-              <td>@xd</td>
-              <td><select name="pets" id="pet-select">
-                  <option value="Eleve">Nouveau</option>
-                  <option value="Eleve">En cours</option>
-                  <option value="EleveCBE">Prête</option>
-                  <option value="Enseignent">Refuser</option>
-                </select></td>
-              <td><a class="text-danger text-decoration-underline" href="">Supprimer</a></td>
-            </tr>
+              $user =  $bdd->prepare("SELECT * FROM achat_produit WHERE id_user = ? ");
+              $user->execute(array($valeur['idx_user']));
+
+            ?>
+
+
+              <tr>
+                <th><?= $valeur['produit'] ?></th>
+                <td><?= $valeur['date'] ?></td>
+                <td><?= $valeur['user'] ?></td>
+                <td><select name="pets" id="pet-select">
+                    <option value="Eleve">Nouveau</option>
+                    <option value="Eleve">En cours</option>
+                    <option value="EleveCBE">Prête</option>
+                    <option value="Enseignent">Refuser</option>
+                  </select>
+                </td>
+
+                <td><a class="text-danger text-decoration-underline" href="">Supprimer</a></td>
+              </tr>
+            <?php } ?>
+
           </tbody>
         </table>
         <div class="container">
