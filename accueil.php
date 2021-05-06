@@ -26,10 +26,9 @@ if (!isset($_SESSION['id'])) {
 </head>
 
 <body style="font-family:Open Sans;">
+  <?= $_SESSION['etudiant'] ?>
   <!-- Start your project here-->
   <header class="col-12">
-    <?php echo $_SESSION['id']; ?>
-    <a href="commande/supprimer.php">supprimer</a>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="col-1"></div>
       <div class="col-2"><img src="img/logocpnvpng.png"></div>
@@ -38,7 +37,7 @@ if (!isset($_SESSION['id'])) {
           <i class="fas fa-bars"></i>
         </button>
         <?php
-        include("menu.php"); 
+        include("menu.php");
         ?>
       </div>
       </div>

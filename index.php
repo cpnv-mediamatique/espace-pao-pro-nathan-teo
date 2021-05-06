@@ -2,7 +2,6 @@
 session_start();
 
 include("commande/bd.php");
-
 ?>
 <?php
 if (isset($_SESSION['id'])) {
@@ -35,15 +34,16 @@ if (isset($_SESSION['id'])) {
           $er_mail = "Le mail est incorrecte";
         } elseif (password_verify($mdp, $req["mdp"])) {
           $valid = true;
-          if ($req['enseignant'] == null or $req['enseignant'] == false) {
-            $etudiant = 0;
-          } elseif ($req['enseignant'] === "1") {
-            $etudiant = 1;
+          if ($req['enseignant'] === "1") {
+            $etudiant = "1";
           } elseif ($req['enseignant'] === "2") {
-            $etudiant = 2;
+            $etudiant = "2";
+          } elseif ($req['enseignant'] === "3") {
+            $etudiant = "3";
           } else {
-            $etudiant = 3;
+            $etudiant = "0";
           }
+
           if ($valid == true) {
             $_SESSION['id'] = $req['id_user']; // id de l'utilisateur unique pour les requêtes futures
             $_SESSION['nom'] = $req['nom'];
@@ -57,7 +57,7 @@ if (isset($_SESSION['id'])) {
           }
         } else {
           $valid = false;
-          $er_mdp = "Le mot de passe est incorrecte";
+          $er_mdp = "Le mot de passe est incorrecte" . $req["mdp"] . "-" . $mdp;
         }
 
 

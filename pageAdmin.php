@@ -7,6 +7,8 @@ if (!isset($_SESSION['id'])) {
 if ($_SESSION['etudiant'] !== "2") {
   header("location: accueil.php");
 }
+include("commande/bd.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -71,48 +73,46 @@ if ($_SESSION['etudiant'] !== "2") {
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <th>Mark</th>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>SM-C1A</td>
-              <td><select name="pets" id="pet-select">
-                  <option value="Eleve">Elève</option>
-                  <option value="EleveCBE">Elève CBE</option>
-                  <option value="Enseignent">Enseignent</option>
-                  <option value="Admin">Admin</option>
-                </select></td>
-              <td><a class="text-danger text-decoration-underline" href="">Supprimer</a></td>
-            </tr>
-            <tr>
-              <th>Job</th>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td>SM-C1A</td>
-              <td><select name="pets" id="pet-select">
-                  <option value="Eleve">Elève</option>
-                  <option value="EleveCBE">Elève CBE</option>
-                  <option value="Enseignent">Enseignent</option>
-                  <option value="Admin">Admin</option>
-                </select></td>
-              <td><a class="text-danger text-decoration-underline" href="">Supprimer</a></td>
-            </tr>
-            <tr>
-              <th>Xd</th>
-              <td>freebies</td>
-              <td>@xd</td>
-              <td>SM-C1A</td>
-              <td><select name="pets" id="pet-select">
-                  <option value="Eleve">Elève</option>
-                  <option value="EleveCBE">Elève CBE</option>
-                  <option value="Enseignent">Enseignent</option>
-                  <option value="Admin">Admin</option>
-                </select></td>
-              <td><a class="text-danger text-decoration-underline" href="">Supprimer</a></td>
-            </tr>
+          <?php
+          $req = $bdd->query("SELECT * FROM user ");
 
-          </tbody>
+          while ($data = $req->fetch()) {
+            if ($data['enseignant'] !== "2") {
+          ?>
+              <tbody>
+                <tr>
+                  <form action="commande/modification.php?id=<?= $data['id_user'] ?>" method="post">
+                    <th><?= $data['prenom'] ?></th>
+                    <td><?= $data['nom'] ?></td>
+                    <td><?= $data['mail'] ?></td>
+                    <?php if ($data['enseignant'] === "0" or $data['enseignant'] === "3") { ?>
+                      <td>SM-C<?= $data['annee'] ?><?= $data['classe'] ?></td>
+                    <?php } else { ?>
+                      <td></td>
+                    <?php } ?>
+
+                    <td><select name="etudiant" id="pet-select">
+                        <option value="0">Elève</option>
+                        <?php if ($data['enseignant'] === "3") { ?>
+                          <option selected value="3">Elève CBE</option>
+                        <?php } else { ?>
+                          <option value="3">Elève CBE</option>
+                        <?php } ?>
+                        <?php if ($data['enseignant'] === "1") { ?>
+                          <option selected value="1">Enseignent</option>
+                        <?php } else { ?>
+                          <option value="1">Enseignent</option>
+                        <?php } ?>
+
+                      </select></td>
+                    <td><input type="submit" class="text-danger text-decoration-underline" style="background-color: inherit; border:inherit;" href="commande/modification.php" value="Confrimer"></td>
+                  </form>
+                </tr>
+              </tbody>
+          <?php
+            }
+          }
+          ?>
         </table>
       </div>
     </div>

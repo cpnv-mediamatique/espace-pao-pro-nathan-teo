@@ -79,40 +79,55 @@ $achat =  $bdd->query("SELECT * FROM achat_produit ");
               <th scope="col">Email</th>
               <th scope="col">Statut</th>
               <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <?php while ($valeur = $achat->fetch()) {
+            <?php
 
-              $user =  $bdd->prepare("SELECT * FROM achat_produit WHERE id_user = ? ");
-              $user->execute(array($valeur['idx_user']));
+
+            $prod = $bdd->query("SELECT * FROM achat_produit JOIN user ON idx_user = id_user");
+
+            while ($valeur = $prod->fetch()) {
 
             ?>
 
+              <form action="commande/modcomm.php?etat=<?= $valeur['id_achat_cdv'] ?>">
+                <tr>
+                  <th><?= $valeur['produit'] ?></th>
+                  <td><?= $valeur['date'] ?></td>
+                  <td><?= $valeur['mail'] ?></td>
+                  <td><select name="etat" id="pet-select">
+                      <option value="1">Nouveau</option>
+                      <?php if ($valeur['etat'] === "2") { ?>
+                        <option selected value="2">En cours</option>
+                      <?php } else { ?>
+                        <option value="2">En cours</option>
+                      <?php } ?>
 
-              <tr>
-                <th><?= $valeur['produit'] ?></th>
-                <td><?= $valeur['date'] ?></td>
-                <td><?= $valeur['user'] ?></td>
-                <td><select name="pets" id="pet-select">
-                    <option value="Eleve">Nouveau</option>
-                    <option value="Eleve">En cours</option>
-                    <option value="EleveCBE">Prête</option>
-                    <option value="Enseignent">Refuser</option>
-                  </select>
-                </td>
+                      <?php if ($valeur['etat'] === "3") { ?>
+                        <option selected value="3">Prête</option>
+                      <?php } else { ?>
+                        <option value="3">Prête</option>
+                      <?php } ?>
 
-                <td><a class="text-danger text-decoration-underline" href="">Supprimer</a></td>
-              </tr>
+                      <?php if ($valeur['etat'] === "4") { ?>
+                        <option selected value="4">Refuser</option>
+                      <?php } else { ?>
+                        <option value="4">Refuser</option>
+                      <?php } ?>
+                    </select>
+                  </td>
+
+                  <td><input type="submit" style="background-color: inherit; border:inherit;" class="text-danger text-decoration-underline" value="Modifier"></td>
+                  <td><a class="text-danger text-decoration-underline" href="commande/supcomm.php?id=<?= $valeur['id_achat_cdv'] ?>">Supprimer</a></td>
+                </tr>
+              </form>
             <?php } ?>
 
           </tbody>
         </table>
-        <div class="container">
-          <a class="btn  text-white col-md-2" href="message.ph" style="background-color:#01A659;">
-            Confirmer
-          </a>
-        </div>
+
       </div>
     </div>
   </main>
